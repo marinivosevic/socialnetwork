@@ -3,39 +3,54 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <div className="fixed h-full w-1/4 p-4 flex flex-col border-r-2 border-gray-900">
+    <div className="w-1/4 p-4  border-r-2 border-gray-900">
+      <div>
+      
+      </div>
       <div className=" mb-4 ml-40 ">
         <Image src={"/images/Logo.png"} alt="logo" width={60} height={60} />
       </div>
-      <ul className="flex-1 space-y-5 ml-44 mt-20">
-        <div>
-        <span ><Image src={"/images/home_FILL0_wght400_GRAD0_opsz24.png"} alt="home" width={20} height={20}/></span>
+      <ul className="flex-1 space-y-5 ml-36 mt-20">
+        <div className="flex">
+        <span ><Image className="flex mr-2 mt-1" src={"/images/icons8-home-64.png"} alt="home" width={30} height={30}/></span>
           <li>
-            <a href="#" className="text-4xl text-white">
+            <a href="#" className="text-4xl text-white hover:text-gray-400">
               Home
             </a>
           </li>
         </div>
-        <li>
-          <a href="#" className="text-4xl text-white">
-            Notifications
-          </a>
-        </li>
-        <li>
-          <a href="#" className="text-4xl text-white">
-            Profile
-          </a>
-        </li>
-        <li>
-          <a href="#" className="text-4xl text-white">
-            Friends
-          </a>
-        </li>
-        <li>
-          <a href="#" className="text-4xl text-white">
-            Leaderboard
-          </a>
-        </li>
+        <div className="flex">
+        <span ><Image className="flex mr-2 mt-1" src={"/images/icons8-bell-50.png"} alt="home" width={30} height={30}/></span>
+          <li>
+            <a href="#" className="text-4xl text-white hover:text-gray-400">
+              Notifications
+            </a>
+          </li>
+        </div>
+        <div className="flex">
+        <span ><Image className="flex mr-2 mt-1" src={"/images/icons8-male-user-50.png"} alt="home" width={30} height={30}/></span>
+          <li>
+            <a href="#" className="text-4xl text-white hover:text-gray-400">
+              Profile
+            </a>
+          </li>
+        </div>
+        <div className="flex">
+        <span ><Image className="flex mr-2 mt-1" src={"/images/icons8-handshake-heart-50.png"} alt="home" width={30} height={30}/></span>
+          <li>
+            <a href="#" className="text-4xl text-white hover:text-gray-400">
+              Friends
+            </a>
+          </li>
+        </div>
+        <div className="flex">
+        <span ><Image className="flex mr-2 mt-1" src={"/images/icons8-leaderboard-50.png"} alt="home" width={30} height={30}/></span>
+          <li>
+            <a href="#" className="text-4xl text-white hover:text-gray-400">
+              Leaderboards
+            </a>
+          </li>
+        </div>
       </ul>
     </div>
   );

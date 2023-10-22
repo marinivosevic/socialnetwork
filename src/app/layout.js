@@ -2,6 +2,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from './components/Navbar'
 import Head from 'next/head'
+import FriendsTab from './components/FriendsTab'
+import PostDIv from './components/PostDIv'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,7 +21,12 @@ export default function RootLayout({ children }) {
         <meta name="description" content={metadata.description} />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=optional" rel="stylesheet" />
       </Head>
-      <Navbar />
+      <div className='flex h-screen'>
+        <Navbar />
+        <PostDIv/>
+        <FriendsTab/>
+      </div>
+      
       <main >{children}</main>
     </div>
   )
