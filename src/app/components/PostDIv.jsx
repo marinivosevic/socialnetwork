@@ -1,16 +1,24 @@
 "use client"
 import React, { useState } from 'react';
 
-const PostDiv = () => {
-    const [showForm, setShowForm] = useState(false);
 
-  const toggleForm = () => {
-    setShowForm(!showForm);
-  };
+const PostDiv = () => {
+    //TODO Make post form hidden/shown
+    const [showForm, setShowForm] = useState(false);
+    const toggleForm = () => {
+        console.log("radi toggle")
+        setShowForm(!showForm);
+      };
+  
+
+  const testState = () => {
+    console.log("radi");
+  }
     return (
         <div className="w-2/4 p-4">
-            <button onClick={toggleForm} className="btn btn-info w-full text-white">New Post +</button>
-            
+            <button onClick={testState} className="btn btn-info w-full text-white">New Post +</button>
+            <button onClick={toggleForm}>Test</button>
+            <button on></button>
 
             {showForm && (
                 <div className="editor mx-auto w-10/12 flex flex-col text-gray-800 border rounded-xl border-gray-300 p-4 shadow-lg max-w-2xl">
