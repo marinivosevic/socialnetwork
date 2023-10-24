@@ -7,7 +7,7 @@ import PostDIv from './components/PostDIv'
 
 export default function Home() {
   return (
-    <main  className='bg-red-900'>
+    <main >
       <div>
      
       <div className='flex h-screen'>
