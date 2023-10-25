@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const FriendsTab = () => {
   return (
-    <div className="w-1/4 p-4 border-l-2 border-gray-900">
+    <div >
       <div className="flex flex-row justify-end">
         <div className="mr-6 mt-3">
           <h3>Profile name</h3>

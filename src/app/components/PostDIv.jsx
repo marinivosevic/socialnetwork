@@ -13,7 +13,7 @@ const PostDiv = () => {
 
  
     return (
-        <div className="w-2/4 p-4">
+        <div >
             <button onClick={toggleForm} className="btn btn-info w-full text-white">New Post +</button>
             
             {/* Forma za novi post */}

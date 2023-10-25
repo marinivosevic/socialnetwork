@@ -3,7 +3,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <div className="w-1/4 p-4  border-r-2 border-gray-900">
+    <div>
       <div>
       
       </div>
