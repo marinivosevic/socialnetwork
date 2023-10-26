@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 
 const PostDiv = () => {
-    //TODO Make post form hidden/shown
+ 
     const [showForm, setShowForm] = useState(false);
     const toggleForm = () => {
         console.log("radi toggle")
