@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
 import "../globals.css";
-import Head from "next/head";
 import Navbar from "../components/Navbar";
 import FriendsTab from "../components/FriendsTab";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -13,8 +13,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html>
-      
-      <body>{children}</body>
+      <body>
+        <div className="flex h-screen">
+          <div className="w-1/4 p-4 border-r border-gray-800">
+            <Navbar />
+          </div>
+          <div className="w-2/4 p-4 ">{children}</div>
+          <div className="w-1/4 p-4 border-l border-gray-800">
+            <FriendsTab />
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
