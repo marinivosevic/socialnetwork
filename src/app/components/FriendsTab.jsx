@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { use } from "react";
 import Image from "next/image";
 import { auth } from "../../../firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -10,24 +10,26 @@ const FriendsTab = () => {
     <div>
       {user ? (
         <div className="flex flex-row justify-end">
+          <div className="mr-32">
+            <button
+              className="btn btn-info text-white"
+              onClick={() => auth.signOut()}
+            >
+              Log out
+            </button>
+          </div>
           <div className="mr-6 mt-3">
-            <h3>Profile name</h3>
+            <h3>{user.displayName}</h3>
           </div>
           <div className="avatar">
             <div className="w-12 justify-right rounded-full ring ring-blue-300 ring-offset-base-100 ring-offset-2">
-              <Image
-                src={"/images/stock/photo-1534528741775-53994a69daeb.jpg"}
-                width={20}
-                height={20}
-                alt={"avatar"}
-              />
+              <img src={user.photoURL} alt={"avatar"} />
             </div>
           </div>
         </div>
-       
       ) : (
         <div className="flex flex-row justify-end">
-        <button className="btn btn-info">Log In</button>
+          <button className="btn btn-info">Log In</button>
         </div>
       )}
 

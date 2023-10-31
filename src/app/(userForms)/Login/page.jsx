@@ -1,5 +1,5 @@
 "use client";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup } from "firebase/auth";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { auth } from "../../../../firebase/config";
@@ -18,7 +18,7 @@ const Page = () => {
 
     const provider = new GoogleAuthProvider();
     try {
-      const user = await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
 
       if (result.user) {
         router.push("/");
@@ -28,12 +28,12 @@ const Page = () => {
     }
   };
 
-  const signInWithEmail = async () => {
+  const signInWithEmail = async (values) => {
     try {
       const user = await signInWithEmailAndPassword(
         auth,
-        loginEmail,
-        loginPassword
+        values.email,
+        values.password
       );
 
       if (user.user) {
@@ -55,7 +55,7 @@ const Page = () => {
           password: "",
         }}
         validationSchema={Yup.object({
-          email: Yup.string().required("Required"),
+          email: Yup.string().required("Required").email("Must be valid email"),
           password: Yup.string()
             .max(16, "Must be 16 characters or less")
             .required("Required"),
@@ -63,6 +63,7 @@ const Page = () => {
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
+            signInWithEmail(values)
             setSubmitting(false);
           }, 400);
         }}
@@ -107,6 +108,26 @@ const Page = () => {
             >
               LOG IN
             </button>
+            <button
+                    onClick={() => signInWithGoogle()}
+                    className="transition duration-200 mx-5 px-5 py-4 cursor-pointer font-normal text-sm rounded-lg bg-gray-50 text-gray-500 hover:bg-gray-300 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      className="w-4 h-4 inline-block align-text-bottom	"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
+                      />
+                    </svg>
+                    <span className="inline-block ml-0">Google Sign In</span>
+                  </button>
 
             <p className="text-center text-lg">
               No account?
