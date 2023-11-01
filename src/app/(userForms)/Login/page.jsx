@@ -1,7 +1,7 @@
 "use client";
 import { signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup } from "firebase/auth";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { auth } from "../../../../firebase/config";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field,useField  } from "formik";
@@ -10,9 +10,7 @@ import * as Yup from 'yup';
 const Page = () => {
   const router = useRouter();
 
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-
+ 
   const signInWithGoogle = async () => {
     console.log("radi");
 
@@ -35,11 +33,11 @@ const Page = () => {
         values.email,
         values.password
       );
-
+      
       if (user.user) {
         router.push("/");
       }
-      console.log("radi" + loginEmail + loginPassword);
+      
     } catch (error) {
       console.error("Error logging with email:", error);
     }
@@ -120,9 +118,9 @@ const Page = () => {
                       className="w-4 h-4 inline-block align-text-bottom	"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
                       />
                     </svg>

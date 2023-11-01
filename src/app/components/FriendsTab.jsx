@@ -3,6 +3,7 @@ import React, { use } from "react";
 import Image from "next/image";
 import { auth } from "../../../firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Link from "next/link";
 
 const FriendsTab = () => {
   const [user] = useAuthState(auth);
@@ -29,7 +30,7 @@ const FriendsTab = () => {
         </div>
       ) : (
         <div className="flex flex-row justify-end">
-          <button className="btn btn-info">Log In</button>
+         <Link href={"/Login"}> <button className="btn btn-info">Log In</button></Link>
         </div>
       )}
 

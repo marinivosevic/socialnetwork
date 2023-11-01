@@ -1,17 +1,18 @@
 "use client";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import {addDoc, collection} from "firebase/firestore";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { auth } from "../../../../firebase/config";
+import React, { useState } from "react";
+import { auth, db } from "../../../../firebase/config";
 import { useRouter } from "next/navigation";
-import { Formik, Form, Field,useField  } from "formik";
+import { Formik} from "formik";
 import * as Yup from 'yup';
 
 const Page = () => {
   const router = useRouter();
 
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   const signUpWithEmail = async (values) => {
     console.log("radi" + values.email + values.password);
@@ -31,6 +32,7 @@ const Page = () => {
     }
   };
 
+ 
  
 
   return (
