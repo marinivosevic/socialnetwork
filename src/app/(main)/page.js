@@ -1,10 +1,11 @@
-import PostDIv from "../components/PostDIv";
+import Feed from "../components/Feed";
+
+
 
 export default function Home() {
   return (
-    
     <main>
-      <PostDIv />
+      <Feed />
     </main>
   );
 }
