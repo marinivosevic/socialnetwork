@@ -23,6 +23,13 @@ const Page = () => {
         values.password
       );
 
+      await addDoc(collection(db, "users"), {
+        id: result.user?.uid,
+        username: result.user?.displayName,
+        friends:[],
+        
+      });
+
       if (user.user) {
         router.push("/");
       }

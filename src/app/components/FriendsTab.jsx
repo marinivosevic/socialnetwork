@@ -1,12 +1,32 @@
 "use client";
-import React, { use } from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import { auth } from "../../../firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { getDocs,collection } from "firebase/firestore";
+import { db } from "../../../firebase/config";
 import Link from "next/link";
+import FriendBox from "./FriendBox";
 
 const FriendsTab = () => {
   const [user] = useAuthState(auth);
+  const [friend, setFriend] = useState([]);
+  useEffect(() => {
+    const getFriends = async () => {
+      try {
+        const data = await getDocs(collection(db, "users"));
+        const mappedData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setFriend(mappedData);
+        console.log("Success" + mappedData);
+      } catch (error) {
+        console.error("Error fetching friends:", error);
+      }
+    };
+
+    getFriends();
+  }, []);
   return (
     <div>
       {user ? (
@@ -30,7 +50,10 @@ const FriendsTab = () => {
         </div>
       ) : (
         <div className="flex flex-row justify-end">
-         <Link href={"/Login"}> <button className="btn btn-info">Log In</button></Link>
+          <Link href={"/Login"}>
+            {" "}
+            <button className="btn btn-info">Log In</button>
+          </Link>
         </div>
       )}
 
@@ -53,23 +76,9 @@ const FriendsTab = () => {
               className="divide-y divide-gray-200 dark:divide-gray-700"
             >
               <li className="py-3 sm:py-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-                      alt="Bonnie image"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                      Bonnie Green
-                    </p>
-                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      email@windster.com
-                    </p>
-                  </div>
-                </div>
+                {friend.map((friend) => (
+                  <FriendBox key={friend.id} friend={friend} />
+                ))}
               </li>
             </ul>
           </div>
