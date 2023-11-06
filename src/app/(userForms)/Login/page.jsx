@@ -44,7 +44,8 @@ const Page = () => {
       if (!(await checkUserExistsInFirestore(result.user.uid))) {
         await addDoc(collection(db, "users"), {
           id: result.user?.uid,
-          username: result.user?.displayName, // Use 'result.user?.displayName'
+          username: result.user?.displayName,
+          name:result.user.email, // Use 'result.user?.displayName'
           friends: [],
         });
         console.log("created user");

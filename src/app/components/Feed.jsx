@@ -31,7 +31,7 @@ const Feed = () => {
     <div>
         <PostCreationForm />
         {post.map((post) =>(
-            <Post key={(post.uid)} post={post}/>
+            <Post key={(post.id)} post={post}/>
         ))}
     </div>
   );

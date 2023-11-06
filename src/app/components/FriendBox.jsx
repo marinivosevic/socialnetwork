@@ -1,4 +1,5 @@
 import React from "react";
+import AddFriendButton from "./AddFriendButton"
 
 const FriendBox = ({friend}) => {
   return (
@@ -16,11 +17,11 @@ const FriendBox = ({friend}) => {
             {friend.username}
           </p>
           <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-            email@windster.com
+            {friend.email}
           </p>
         </div>
         <div>
-            <button>Add</button>
+            <AddFriendButton person={friend}/>
         </div>
       </div>
     </div>
