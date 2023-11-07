@@ -24,8 +24,9 @@ const Page = () => {
       );
 
       await addDoc(collection(db, "users"), {
-        id: result.user?.uid,
-        username: result.user?.displayName,
+        id: user.user?.uid,
+        username: values.username,
+        email:values.email,
         friends:[],
         
       });
@@ -74,7 +75,7 @@ const Page = () => {
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
+            
             signUpWithEmail(values);
             setSubmitting(false);
           }, 400);
