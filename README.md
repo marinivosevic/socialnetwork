@@ -1,3 +1,10 @@
+##Still in development
+
+##About
+This is a twiter-like webapp that uses Next.js as its frontend and Firebase for backend and Database managment. Webapp alowes you to post text and pictures, add friends that you know and see how you look on the LEADERBOARD. The leaderboard show users with most likes, most avg. amount of likes, the most posts posted etc. 
+
+  
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
