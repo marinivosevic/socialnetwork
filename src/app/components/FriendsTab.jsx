@@ -14,19 +14,20 @@ const FriendsTab = () => {
     const getFriends = async () => {
       try {
         const data = await getDocs(collection(db, "users"));
-        const mappedData = data.docs.map((doc) => ({
+        const allUsers = data.docs.map((doc) => ({
           ...doc.data(),
-          id: doc.id,
+          id: doc.data().id,
         }));
-        setFriend(mappedData);
-        console.log("Success" + mappedData);
+
+        
+        console.log("Success", allUsers);
       } catch (error) {
         console.error("Error fetching friends:", error);
       }
     };
 
     getFriends();
-  }, []);
+  }, [user]);
   return (
     <div>
       {user ? (
@@ -76,7 +77,7 @@ const FriendsTab = () => {
               className="divide-y divide-gray-200 dark:divide-gray-700"
             >
               <li className="py-3 sm:py-4">
-                {friend.map((friend) => (
+                {friend.slice(0, 5).map((friend) => (
                   <FriendBox key={friend.id} friend={friend} />
                 ))}
               </li>

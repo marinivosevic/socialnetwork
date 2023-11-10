@@ -2,6 +2,8 @@ import React from "react";
 import AddFriendButton from "./AddFriendButton"
 
 const FriendBox = ({friend}) => {
+  
+
   return (
     <div>
       <div className="flex items-center space-x-4">
@@ -21,7 +23,7 @@ const FriendBox = ({friend}) => {
           </p>
         </div>
         <div>
-            <AddFriendButton person={friend}/>
+            <AddFriendButton  person={friend}/>
         </div>
       </div>
     </div>

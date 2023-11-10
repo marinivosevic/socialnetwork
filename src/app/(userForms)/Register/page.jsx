@@ -28,7 +28,8 @@ const Page = () => {
         username: values.username,
         email:values.email,
         friends:[],
-        
+        likeNum:0,
+        numOfPosts:0,
       });
 
       if (user.user) {

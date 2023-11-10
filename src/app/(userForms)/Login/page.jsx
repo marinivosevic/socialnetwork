@@ -45,8 +45,10 @@ const Page = () => {
         await addDoc(collection(db, "users"), {
           id: result.user?.uid,
           username: result.user?.displayName,
-          name:result.user.email, // Use 'result.user?.displayName'
+          email:result.user.email, 
           friends: [],
+          likeNum:0,
+        numOfPosts:0,
         });
         console.log("created user");
       }
@@ -72,6 +74,8 @@ const Page = () => {
           id: user.user?.uid,
           username: user.user?.displayName, // Use 'result.user?.displayName'
           friends: [],
+          likeNum:0,
+        numOfPosts:0,
         });
       }
 

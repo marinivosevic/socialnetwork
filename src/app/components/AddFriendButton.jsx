@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { auth, db } from "../../../firebase/config";
 import {
   updateDoc,
@@ -15,6 +15,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 const AddFriendButton = ({ person }) => {
   const [user] = useAuthState(auth);
   const [userDocId, setUserDocId] = useState(null);
+  const [areFriendsSuccess,setAreFriendsSuccess] = useState(false);
 
   
   const addFriend = async () => {
@@ -37,14 +38,18 @@ const AddFriendButton = ({ person }) => {
       await updateDoc(userColRef, { friends: arrayUnion(personDb.data().id) });
       await updateDoc(personColRef, { friends: arrayUnion(user.uid) });
       console.log("Friendship added successfully");
+      setAreFriendsSuccess(true);
     } catch (error) {
       console.error(error);
     }
+
+   
   };
 
   return (
     <div>
-      <button onClick={addFriend}>Add</button>
+      {areFriendsSuccess ? <p>Friend</p> : <button className="btn btn-outline btn-info mb-2" onClick={addFriend}>Add</button>}
+      
     </div>
   );
 };
