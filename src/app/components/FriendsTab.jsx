@@ -2,32 +2,46 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../../../firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getDocs,collection } from "firebase/firestore";
+import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../../../firebase/config";
 import Link from "next/link";
 import FriendBox from "./FriendBox";
 
 const FriendsTab = () => {
   const [user] = useAuthState(auth);
-  const [friend, setFriend] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
+  const [userFriends, setUserFriends] = useState([]);
   useEffect(() => {
-    const getFriends = async () => {
-      try {
-        const data = await getDocs(collection(db, "users"));
-        const allUsers = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.data().id,
-        }));
-
-        
-        console.log("Success", allUsers);
-      } catch (error) {
-        console.error("Error fetching friends:", error);
-      }
+    const fetchUsers = async () => {
+      
+      const usersCollection = collection(db, 'users');
+      const usersSnapshot = await getDocs(usersCollection);
+      const usersData = usersSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAllUsers(usersData);
+      
     };
 
-    getFriends();
+    const fetchUserFriends = async () => {
+      if(user){
+        const usersCollection = collection(db, 'users');
+        const userQuery = query(usersCollection, where('id', '==', user.uid));
+        const userSnapshot = await getDocs(userQuery);
+        const userData = userSnapshot.docs[0]?.data();
+        const friends = userData?.friends || [];
+        setUserFriends(friends);
+      }
+        
+        
+    };
+    
+    fetchUsers();
+    fetchUserFriends();
   }, [user]);
+
+  const nonFriends = allUsers.filter((u) => !userFriends.includes(u.id));
   return (
     <div>
       {user ? (
@@ -62,13 +76,13 @@ const FriendsTab = () => {
         <div className="p-4 max-w-md bg-white rounded-lg border shadow-md sm:p-8 dark:bg-[#0c192e] dark:border-gray-700">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-              Friends
+              Friend suggestions
             </h3>
             <a
               href="#"
               className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
             >
-              View all
+              View your friends
             </a>
           </div>
           <div className="flow-root">
@@ -77,7 +91,7 @@ const FriendsTab = () => {
               className="divide-y divide-gray-200 dark:divide-gray-700"
             >
               <li className="py-3 sm:py-4">
-                {friend.slice(0, 5).map((friend) => (
+                {nonFriends.map((friend) => (
                   <FriendBox key={friend.id} friend={friend} />
                 ))}
               </li>

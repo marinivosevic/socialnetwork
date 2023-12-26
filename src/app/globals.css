@@ -2,11 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-
-body{
-  background-color: #000e24;
+::-webkit-scrollbar {
+  display: none;
 }
 
+body, html {
+  
+  background-color: #000e24;
+ 
+  overflow: auto; 
+}
 
 .material-symbols-outlined {
   font-variation-settings:

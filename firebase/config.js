@@ -4,6 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore} from '@firebase/firestore';
 import { getStorage} from '@firebase/storage';
 import { getAuth } from "firebase/auth";
+
 const firebaseConfig = {
     apiKey: "AIzaSyDK6Sr0G3vroF5Kd8df5fE05o6VKCWI2Ng",
     authDomain: "twitterclone-b784a.firebaseapp.com",

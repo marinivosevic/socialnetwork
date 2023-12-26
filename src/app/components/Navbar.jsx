@@ -14,7 +14,7 @@ const Navbar = () => {
         <div className="flex">
         <span ><Image className="flex mr-2 mt-1" src={"/images/icons8-home-64.png"} alt="home" width={30} height={30}/></span>
           <li>
-            <a href="#" className="text-4xl text-white hover:text-gray-400">
+            <a href="/" className="text-4xl text-white hover:text-gray-400">
               Home
             </a>
           </li>
@@ -38,7 +38,7 @@ const Navbar = () => {
         <div className="flex">
         <span ><Image className="flex mr-2 mt-1" src={"/images/icons8-handshake-heart-50.png"} alt="home" width={30} height={30}/></span>
           <li>
-            <a href="#" className="text-4xl text-white hover:text-gray-400">
+            <a href="/Friends" className="text-4xl text-white hover:text-gray-400">
               Friends
             </a>
           </li>
@@ -46,7 +46,7 @@ const Navbar = () => {
         <div className="flex">
         <span ><Image className="flex mr-2 mt-1" src={"/images/icons8-leaderboard-50.png"} alt="home" width={30} height={30}/></span>
           <li>
-            <a href="#" className="text-4xl text-white hover:text-gray-400">
+            <a href="/Leaderboard" className="text-4xl text-white hover:text-gray-400">
               Leaderboards
             </a>
           </li>

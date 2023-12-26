@@ -14,12 +14,12 @@ export default function RootLayout({ children }) {
   return (
     <html>
       <body>
-        <div className="flex h-screen">
-          <div className="w-1/4 p-4 border-r border-gray-800">
+        <div className="flex h-screen justify-center">
+          <div className="w-1/4 p-4 border-r border-gray-800 fixed h-full left-0">
             <Navbar />
           </div>
-          <div className="w-2/4 p-4 ">{children}</div>
-          <div className="w-1/4 p-4 border-l border-gray-800">
+          <div className=" p-4 overflow-y-auto w-1/2 ">{children}</div>
+          <div className="w-1/4 p-4 border-l border-gray-800 fixed h-full right-0">
             <FriendsTab />
           </div>
         </div>
