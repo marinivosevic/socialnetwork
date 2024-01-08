@@ -6,37 +6,40 @@ import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../../../firebase/config";
 import Link from "next/link";
 import FriendBox from "./FriendBox";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const FriendsTab = () => {
   const [user] = useAuthState(auth);
   const [allUsers, setAllUsers] = useState([]);
   const [userFriends, setUserFriends] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchUsers = async () => {
-      
-      const usersCollection = collection(db, 'users');
+      setLoading(true);
+      const usersCollection = collection(db, "users");
       const usersSnapshot = await getDocs(usersCollection);
       const usersData = usersSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       setAllUsers(usersData);
-      
+      setLoading(false);
     };
 
     const fetchUserFriends = async () => {
-      if(user){
-        const usersCollection = collection(db, 'users');
-        const userQuery = query(usersCollection, where('id', '==', user.uid));
+      if (user) {
+        setLoading(true);
+        const usersCollection = collection(db, "users");
+        const userQuery = query(usersCollection, where("id", "==", user.uid));
         const userSnapshot = await getDocs(userQuery);
         const userData = userSnapshot.docs[0]?.data();
         const friends = userData?.friends || [];
         setUserFriends(friends);
+        setLoading(false);
       }
-        
-        
     };
-    
+
     fetchUsers();
     fetchUserFriends();
   }, [user]);
@@ -79,23 +82,35 @@ const FriendsTab = () => {
               Friend suggestions
             </h3>
             <a
-              href="#"
+              href="/Friends"
               className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
             >
               View your friends
             </a>
           </div>
           <div className="flow-root">
-            <ul
-              role="list"
-              className="divide-y divide-gray-200 dark:divide-gray-700"
-            >
-              <li className="py-3 sm:py-4">
-                {nonFriends.map((friend) => (
-                  <FriendBox key={friend.id} friend={friend} />
-                ))}
-              </li>
-            </ul>
+            {loading ? (
+              <Box className="p-1 px-4 flex justify-center items-center font-semibold cursor-pointer rounded-xl text-gray-200 ml-2 ">
+                <CircularProgress />{" "}
+              </Box>
+            ) : user ? (
+              <ul
+                role="list"
+                className="divide-y divide-gray-200 dark:divide-gray-700"
+              >
+                <li className="py-3 sm:py-4">
+                  {nonFriends.map((friend) => (
+                    <FriendBox key={friend.id} friend={friend} />
+                  ))}
+                </li>
+              </ul>
+            ) : (
+              <div className="flex flex-row justify-center">
+                <h5 className="text-md font-bold leading-none text-gray-900 dark:text-white">
+                  Please log in for friend suggestions
+                </h5>
+              </div>
+            )}
           </div>
         </div>
       </div>

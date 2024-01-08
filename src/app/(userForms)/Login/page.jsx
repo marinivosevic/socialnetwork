@@ -48,7 +48,8 @@ const Page = () => {
           email:result.user.email, 
           friends: [],
           likeNum:0,
-        numOfPosts:0,
+          numOfPosts:0,
+          photoURL:result.user.photoURL,
         });
         console.log("created user");
       }

@@ -18,6 +18,7 @@ import {
   runTransaction,
   increment,
   get,
+  toDate
 } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 const Post = ({ post,imageUrl,postId }) => {
@@ -25,17 +26,13 @@ const Post = ({ post,imageUrl,postId }) => {
   const [likeCount, setLikeCount] = useState(0);
   const [liked, setLiked] = useState(false);
   //TODO
-  /*  function convertTimestamp(timestamp) {
-    let date = timestamp.toDate();
-    let mm = date.getMonth();
-    let dd = date.getDate();
-    let yyyy = date.getFullYear();
-  
-    date = mm + '/' + dd + '/' + yyyy;
+ /*  function convertTimestamp(timestamp) {
+   console.log(timestamp.toDate());
+    const date = timestamp.toDate();
     return date;
-  }
+  } 
   
-  const formattedTimestamp = convertTimestamp(post.timestamp.seconds); */
+ const formattedTimestamp = convertTimestamp(post.timestamp.seconds);  */
  
   useEffect(() => {
     console.log(post);
@@ -51,7 +48,7 @@ const Post = ({ post,imageUrl,postId }) => {
 
   const incLikeCountForUser = async () => {
     const usersRef = collection(db, "users");
-    const q = query(usersRef, where("id", "==", user.uid));
+    const q = query(usersRef, where("id", "==",post.creatorID));
 
     try {
       const querySnapshot = await getDocs(q);
@@ -106,13 +103,15 @@ const Post = ({ post,imageUrl,postId }) => {
       <div className="mt-5 rounded-xl border p-5 shadow-md w-full bg-[#0c192e]">
         <div className="flex w-full items-center justify-between border-b pb-3">
           <div className="flex items-center space-x-3">
-            <div className="h-8 w-8 rounded-full bg-slate-400 bg-[url('https://i.pravatar.cc/32')]"></div>
+           {/*  <div className="h-8 w-8 rounded-full bg-slate-400 ">
+              <Image className="h-8 w-8 rounded-full bg-slate-400 " src={user.photoURL} width={30} height={30} alt="profile"/>
+            </div> */}
             <div className="text-lg font-bold text-slate-200">
               {post.username}
             </div>
           </div>
           <div className="flex items-center space-x-8">
-            <div className="text-xs text-neutral-200">Dodaj vrijeme</div>
+          {post.timestamp?.toDate()?.toLocaleString() || 'No date available'}
           </div>
         </div>
 
@@ -120,7 +119,7 @@ const Post = ({ post,imageUrl,postId }) => {
           <div className="mb-3 text-xl font-bold">{post.title}</div>
           <div className="text-sm text-neutral-100">{post.text}</div>
           <div>
-          {(post.imageUrl) && (<Image width="50" height = "50" src={post.imageUrl} alt="postImage" className="w-full h-96 object-cover mt-3 rounded-xl" />)}
+          {(post.imageUrl) && (<Image width="1000" height = "500" src={post.imageUrl} alt="postImage" className="w-full h-96 object-cover  mt-3 rounded-xl" />)}
           </div>
           
         </div>

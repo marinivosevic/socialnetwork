@@ -2,7 +2,16 @@
 import React, { useEffect, useState } from "react";
 import { auth, db, storage } from "../../../firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  increment,
+} from "firebase/firestore";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import {
@@ -19,9 +28,10 @@ const PostCreationForm = ({ onImageUrl, onPostId }) => {
   const [user] = useAuthState(auth);
   const [titleInput, setTitleInput] = useState("");
   const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
+
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
@@ -40,33 +50,36 @@ const PostCreationForm = ({ onImageUrl, onPostId }) => {
 
     return result;
   };
+
   const postId = generateRandomString(12);
+
+  
+    
+  
   const sendPostToDb = async (e) => {
     console.log(user.id);
     setLoading(true);
-    if (image) {
-      const file = image;
-      console.log(file);
-      const storage = getStorage();
-      const storageRef = ref(storage, file.name);
-
-      // 'file' comes from the Blob or File API
-      try {
+    
+    try {
+      let imageUrl = null; // Initialize imageUrl
+  
+      if (image) {
+        // If there is an image, proceed with the upload logic
+        const file = image;
+        const storage = getStorage();
+        const storageRef = ref(storage, file.name);
+  
+        // Upload the image
         const [snapshot] = await Promise.all([
           uploadBytes(storageRef, file),
-          new Promise((resolve) => setTimeout(resolve, 10000)), // Add a small delay
         ]);
-
-        const url = await getDownloadURL(storageRef);
-        setImageUrl(url);
-        console.log("Image url " + imageUrl);
-      } catch (error) {
-        console.error("Error uploading or getting image URL:", error);
-        // Handle errors here
+  
+        // Get the download URL after uploading
+        imageUrl = await getDownloadURL(storageRef);
       }
-    }
-    try {
-      const docRef = await addDoc(collection(db, "posts"), {
+  
+      // Create the post object
+      const postObject = {
         postId: postId,
         username: user?.displayName,
         title: titleInput,
@@ -74,18 +87,45 @@ const PostCreationForm = ({ onImageUrl, onPostId }) => {
         timestamp: serverTimestamp(),
         likeNumber: 0,
         likedBy: [],
-        imageUrl: imageUrl,
-      });
-
+        imageUrl: imageUrl, // Use the obtained URL if image exists, otherwise null
+        creatorID: user?.uid,
+      };
+  
+      // Add the post to the Firestore collection
+      const docRef = await addDoc(collection(db, "posts"), postObject);
+  
       toggleForm();
+      incPostCountForUser();
+      window.location.reload(false);
     } catch (error) {
-      console.error("Error adding post to Firestore:", error);
+      console.error("Error uploading or getting image URL:", error);
       // Handle errors here
     } finally {
       setLoading(false);
     }
+  };
+  
 
-    toggleForm();
+  const incPostCountForUser = async () => {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("id", "==", user.uid));
+
+    try {
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const userDocRef = querySnapshot.docs[0].ref;
+        //console.log(querySnapshot.docs[0]);
+        // Update the 'likeNum' field using increment
+        await updateDoc(userDocRef, {
+          numOfPosts: increment(1),
+        });
+      } else {
+        console.error("User document not found");
+      }
+    } catch (error) {
+      console.error("Error updating like count:", error);
+    }
   };
 
   const toggleForm = () => {
@@ -157,7 +197,11 @@ const PostCreationForm = ({ onImageUrl, onPostId }) => {
               />
             </svg>
 
-            <input type="file" onChange={handleChange}></input>
+            <input
+              type="file"
+              className="file-input w-full max-w-xs"
+              onChange={handleChange}
+            ></input>
             <div className="count ml-auto text-gray-400 text-xs font-semibold">
               0/300
             </div>
@@ -171,7 +215,7 @@ const PostCreationForm = ({ onImageUrl, onPostId }) => {
               Cancel
             </div>
             {loading ? (
-              <Box  className="border border-gray-500 p-1 px-4 font-semibold cursor-pointer rounded-xl text-gray-200 ml-2 bg-blue-500">
+              <Box className="border border-gray-500 p-1 px-4 font-semibold cursor-pointer rounded-xl text-gray-200 ml-2 bg-blue-500">
                 <CircularProgress />{" "}
               </Box>
             ) : (

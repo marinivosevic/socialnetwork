@@ -30,6 +30,7 @@ const Page = () => {
         friends:[],
         likeNum:0,
         numOfPosts:0,
+        photoURL:"https://firebasestorage.googleapis.com/v0/b/twitterclone-b784a.appspot.com/o/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png?alt=media&token=3ed46075-421e-4fde-8929-8c3f2c51e415",
       });
 
       if (user.user) {
