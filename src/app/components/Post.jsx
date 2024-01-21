@@ -25,14 +25,7 @@ const Post = ({ post,imageUrl,postId }) => {
   const [user] = useAuthState(auth);
   const [likeCount, setLikeCount] = useState(0);
   const [liked, setLiked] = useState(false);
-  //TODO
- /*  function convertTimestamp(timestamp) {
-   console.log(timestamp.toDate());
-    const date = timestamp.toDate();
-    return date;
-  } 
-  
- const formattedTimestamp = convertTimestamp(post.timestamp.seconds);  */
+
  
   useEffect(() => {
     console.log(post);

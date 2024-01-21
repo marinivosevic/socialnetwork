@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
       
         <div className="flex h-screen justify-center">
         
-          <div className="w-1/4 p-4 border-r border-gray-800 fixed h-full left-0">
+          <div className="w-1/4  border-r border-gray-800 fixed h-full left-0">
             <Navbar />
           </div>
           <div className=" p-4 overflow-y-auto w-1/2 ">{children}</div>

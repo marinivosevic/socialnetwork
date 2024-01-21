@@ -6,11 +6,13 @@ import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../../../../firebase/config";
 import FriendBox from "@/app/components/FriendBox";
 import { ToastContainer, toast } from "react-toastify";
+import Link from "next/link";
 const Page = () => {
   const [user] = useAuthState(auth);
   const [allUsers, setAllUsers] = useState([]);
   const [userFriends, setUserFriends] = useState([]);
   useEffect(() => {
+    
     const fetchUsers = async () => {
       const usersCollection = collection(db, "users");
       const usersSnapshot = await getDocs(usersCollection);
@@ -20,8 +22,8 @@ const Page = () => {
       }));
       setAllUsers(usersData);
     };
-
-    const fetchUserFriends = async () => {
+    
+    const fetchUsersFriends = async () => {
       if (user) {
         console.log(user.uid);
         const usersCollection = collection(db, "users");
@@ -34,9 +36,9 @@ const Page = () => {
     };
 
     fetchUsers();
-    fetchUserFriends();
+    fetchUsersFriends();
   }, [user]);
-
+  //Filter all users and return only those who are friends with the current user
   const friends = allUsers.filter((u) => userFriends.includes(u.id));
 
   return (
@@ -48,7 +50,7 @@ const Page = () => {
         >
           <li className="py-3 sm:py-4">
             {friends.map((friend) => (
-              <FriendBox key={friend.id} friend={friend} page={"friendPage"} />
+              <FriendBox key = {friend.id} friend={friend} page={"friendPage"} />
             ))}
           </li>
         </ul>

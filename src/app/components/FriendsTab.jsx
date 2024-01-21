@@ -8,6 +8,7 @@ import Link from "next/link";
 import FriendBox from "./FriendBox";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import {  toast } from "react-toastify";
 
 const FriendsTab = () => {
   const [user] = useAuthState(auth);
@@ -52,7 +53,19 @@ const FriendsTab = () => {
           <div className="mr-32">
             <button
               className="btn btn-info text-white"
-              onClick={() => auth.signOut()}
+              onClick={() => {
+                auth.signOut();
+                toast.success("Successfully Loged out!", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
+              }}
             >
               Log out
             </button>

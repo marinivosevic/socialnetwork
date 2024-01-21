@@ -7,10 +7,10 @@ const Navbar = () => {
       <div>
       
       </div>
-      <div className=" mb-4 ml-40 ">
+      <div className=" mb-4 ml-32 ">
         <Image src={"/images/Logo.png"} alt="logo" width={60} height={60} />
       </div>
-      <ul className="flex-1 space-y-5 ml-36 mt-20">
+      <ul className="flex-1 space-y-5 ml-24 mt-20">
         <div className="flex">
         <span ><Image className="flex mr-2 mt-1" src={"/images/icons8-home-64.png"} alt="home" width={30} height={30}/></span>
           <li>

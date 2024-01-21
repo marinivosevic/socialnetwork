@@ -53,34 +53,30 @@ const PostCreationForm = ({ onImageUrl, onPostId }) => {
 
   const postId = generateRandomString(12);
 
-  
-    
-  
   const sendPostToDb = async (e) => {
     console.log(user.id);
     setLoading(true);
-    
+
     try {
-      let imageUrl = null; // Initialize imageUrl
-  
+      let imageUrl = null; 
+
       if (image) {
         // If there is an image, proceed with the upload logic
         const file = image;
         const storage = getStorage();
         const storageRef = ref(storage, file.name);
-  
+
         // Upload the image
-        const [snapshot] = await Promise.all([
-          uploadBytes(storageRef, file),
-        ]);
-  
+        const [snapshot] = await Promise.all([uploadBytes(storageRef, file)]);
+
         // Get the download URL after uploading
         imageUrl = await getDownloadURL(storageRef);
       }
+
   
-      // Create the post object
       const postObject = {
         postId: postId,
+        creatorID: user?.uid,
         username: user?.displayName,
         title: titleInput,
         text: textInput,
@@ -90,21 +86,19 @@ const PostCreationForm = ({ onImageUrl, onPostId }) => {
         imageUrl: imageUrl, // Use the obtained URL if image exists, otherwise null
         creatorID: user?.uid,
       };
-  
-      // Add the post to the Firestore collection
+
+     
       const docRef = await addDoc(collection(db, "posts"), postObject);
-  
+
       toggleForm();
       incPostCountForUser();
       window.location.reload(false);
     } catch (error) {
       console.error("Error uploading or getting image URL:", error);
-      // Handle errors here
     } finally {
       setLoading(false);
     }
   };
-  
 
   const incPostCountForUser = async () => {
     const usersRef = collection(db, "users");
